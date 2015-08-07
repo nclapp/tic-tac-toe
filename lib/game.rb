@@ -1,3 +1,5 @@
+require 'pry'
+
 class Board
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
@@ -20,8 +22,8 @@ class Game
 
     puts "Player 2, what letter would you like to be?"
     get_gamepiece_choice
-    check_for_unique_gamepiece
     @player_two = gamepiece_choice
+    check_for_unique_gamepiece
 
     puts "Player 1: \"#{@player_one}\""
     puts "Player 2: \"#{@player_two}\""
@@ -145,9 +147,5 @@ class Game
 end#class Game
 
 game = Game.new
-# game.start_game
+game.start_game
 # game.prompt_for_gamepiece
-
-p game.valid_gamepiece?(3.to_s)
-p game.valid_gamepiece?("Hi")
-p game.valid_gamepiece?("X")
