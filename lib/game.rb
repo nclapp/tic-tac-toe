@@ -15,7 +15,17 @@ class Game
     # @hum = "O"
   end
 
-    def start_game
+  def prompt_for_players
+    puts "How many players? \n(0: computer vs. computer; 1: computer vs. user; 2: user vs. user)"
+    @num_players = gets.chomp.to_i
+    until @num_players.between?(0,2)
+      puts "Please pick 0, 1, or 2!"
+      @num_players = gets.chomp.to_i
+    end
+    puts "Great, get ready for a #{@num_players}-player game!"
+  end
+
+  def start_game
     puts "Welcome to my Tic Tac Toe game!"
     prompt_for_gamepiece
     draw_board
@@ -47,8 +57,8 @@ class Game
   def get_gamepiece_choice
     @gamepiece_choice = gets.chomp.to_s
     until valid_gamepiece?(@gamepiece_choice)
-       puts "Please choose a single non-numeric character:"
-       @gamepiece_choice = gets.chomp.to_s
+      puts "Please choose a single non-numeric character:"
+      @gamepiece_choice = gets.chomp.to_s
     end
   end
 
@@ -66,8 +76,6 @@ class Game
   def draw_board
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
-
-
 
   def get_human_spot
     spot = nil
@@ -133,13 +141,13 @@ class Game
 
   def game_is_over(b)
     [b[0], b[1], b[2]].uniq.length == 1 ||
-    [b[3], b[4], b[5]].uniq.length == 1 ||
-    [b[6], b[7], b[8]].uniq.length == 1 ||
-    [b[0], b[3], b[6]].uniq.length == 1 ||
-    [b[1], b[4], b[7]].uniq.length == 1 ||
-    [b[2], b[5], b[8]].uniq.length == 1 ||
-    [b[0], b[4], b[8]].uniq.length == 1 ||
-    [b[2], b[4], b[6]].uniq.length == 1
+      [b[3], b[4], b[5]].uniq.length == 1 ||
+      [b[6], b[7], b[8]].uniq.length == 1 ||
+      [b[0], b[3], b[6]].uniq.length == 1 ||
+      [b[1], b[4], b[7]].uniq.length == 1 ||
+      [b[2], b[5], b[8]].uniq.length == 1 ||
+      [b[0], b[4], b[8]].uniq.length == 1 ||
+      [b[2], b[4], b[6]].uniq.length == 1
   end
 
   def tie(b)
@@ -149,5 +157,5 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
-# game.prompt_for_gamepiece
+# game.start_game
+game.prompt_for_players
