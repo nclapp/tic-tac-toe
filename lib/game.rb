@@ -5,6 +5,14 @@ class Game
     @hum = "O"
   end
 
+  def prompt_for_gamepiece
+    puts "Player 1, what letter would you like to be?"
+    gets @player_one
+    puts "Thanks. Player 2, what letter would you like to be?"
+    gets @player_two
+    puts "Player 1 is #{@player_one}, and Player 2 is #{player_two}."
+  end
+
   def start_game
     puts "Welcome to my Tic Tac Toe game"
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|
@@ -89,13 +97,13 @@ class Game
 
   def game_is_over(b)
     [b[0], b[1], b[2]].uniq.length == 1 ||
-      [b[3], b[4], b[5]].uniq.length == 1 ||
-      [b[6], b[7], b[8]].uniq.length == 1 ||
-      [b[0], b[3], b[6]].uniq.length == 1 ||
-      [b[1], b[4], b[7]].uniq.length == 1 ||
-      [b[2], b[5], b[8]].uniq.length == 1 ||
-      [b[0], b[4], b[8]].uniq.length == 1 ||
-      [b[2], b[4], b[6]].uniq.length == 1
+    [b[3], b[4], b[5]].uniq.length == 1 ||
+    [b[6], b[7], b[8]].uniq.length == 1 ||
+    [b[0], b[3], b[6]].uniq.length == 1 ||
+    [b[1], b[4], b[7]].uniq.length == 1 ||
+    [b[2], b[5], b[8]].uniq.length == 1 ||
+    [b[0], b[4], b[8]].uniq.length == 1 ||
+    [b[2], b[4], b[6]].uniq.length == 1
   end
 
   def tie(b)
