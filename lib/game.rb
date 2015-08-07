@@ -10,8 +10,16 @@ class Game
     @player_one = gets.chomp.to_s
     puts "Player 2, what letter would you like to be?"
     @player_two = gets.chomp.to_s
-    puts "Player 1: \"#{@player_one}\""
-    puts "Player 2: \"#{@player_two}\""
+    check_for_unique_gamepiece
+    puts "Player 1: \"#{@player_one}\"
+        \nPlayer 2: \"#{@player_two}\""
+  end
+
+  def check_for_unique_gamepiece
+    while @player_one == @player_two
+      puts "#{@player_two} is in use, please pick another character:"
+      @player_two = gets.chomp.to_s
+    end
   end
 
   def start_game
