@@ -2,7 +2,7 @@ require 'pry'
 
 class Board
   def initialize
-    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    # @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     # @com = "X"
     # @hum = "O"
   end
@@ -15,6 +15,21 @@ class Game
     # @hum = "O"
   end
 
+    def start_game
+    puts "Welcome to my Tic Tac Toe game!"
+    prompt_for_gamepiece
+    draw_board
+    puts "Please select your spot."
+    until game_is_over(@board) || tie(@board)
+      get_human_spot
+      if !game_is_over(@board) && !tie(@board)
+        eval_board
+      end
+      draw_board
+    end
+    puts "Game over"
+  end
+
   def prompt_for_gamepiece
     puts "Player 1, what letter would you like to be?"
     get_gamepiece_choice
@@ -23,7 +38,7 @@ class Game
     puts "Player 2, what letter would you like to be?"
     get_gamepiece_choice
     @player_two = @gamepiece_choice
-    check_for_unique_gamepiece
+    ensure_unique_gamepiece
 
     puts "Player 1: \"#{@player_one}\""
     puts "Player 2: \"#{@player_two}\""
@@ -34,11 +49,10 @@ class Game
     until valid_gamepiece?(@gamepiece_choice)
        puts "Please choose a single non-numeric character:"
        @gamepiece_choice = gets.chomp.to_s
-
     end
   end
 
-  def check_for_unique_gamepiece
+  def ensure_unique_gamepiece
     until @player_one != @player_two && valid_gamepiece?(@player_two)
       puts "\"#{@player_two}\" is in use or invalid, please pick another character:"
       @player_two = gets.chomp.to_s
@@ -53,20 +67,7 @@ class Game
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
 
-  def start_game
-    puts "Welcome to my Tic Tac Toe game!"
-    prompt_for_gamepiece
-    draw_board
-    puts "Please select your spot."
-    until game_is_over(@board) || tie(@board)
-      get_human_spot
-      if !game_is_over(@board) && !tie(@board)
-        eval_board
-      end
-      draw_board
-    end
-    puts "Game over"
-  end
+
 
   def get_human_spot
     spot = nil
