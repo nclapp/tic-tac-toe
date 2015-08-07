@@ -15,19 +15,9 @@ class Game
     # @hum = "O"
   end
 
-  def prompt_for_players
-    puts "How many players? \n(0: computer vs. computer; 1: computer vs. user; 2: user vs. user)"
-    @num_players = gets.chomp.to_i
-    until @num_players.between?(0,2)
-      puts "Please pick 0, 1, or 2!"
-      @num_players = gets.chomp.to_i
-    end
-    puts "Great, get ready for a #{@num_players}-player game!"
-  end
-
   def start_game
     puts "Welcome to my Tic Tac Toe game!"
-    prompt_for_gamepiece
+    assign_gamepieces
     draw_board
     puts "Please select your spot."
     until game_is_over(@board) || tie(@board)
@@ -40,15 +30,40 @@ class Game
     puts "Game over"
   end
 
-  def prompt_for_gamepiece
-    puts "Player 1, what letter would you like to be?"
-    get_gamepiece_choice
-    @player_one = @gamepiece_choice
+  def prompt_for_players
+    puts "How many players?"
+    puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
+    @num_players = gets.chomp.to_i
+    until @num_players.between?(0,2)
+      puts "Please pick 0, 1, or 2!"
+      @num_players = gets.chomp.to_i
+    end
+    puts "Great, get ready for a #{@num_players}-player game!"
+  end
 
-    puts "Player 2, what letter would you like to be?"
-    get_gamepiece_choice
-    @player_two = @gamepiece_choice
-    ensure_unique_gamepiece
+  def assign_gamepieces
+    if @num_players == 0
+      @player_one = "X"
+      @player_two = "O"
+    end
+
+    if @num_players > 0
+      puts "Player 1, what letter would you like to be?"
+      get_gamepiece_choice
+      @player_one = @gamepiece_choice
+    end
+
+    if @num_players > 1
+      puts "Player 2, what letter would you like to be?"
+      get_gamepiece_choice
+      @player_two = @gamepiece_choice
+      ensure_unique_gamepiece
+    end
+
+    if @num_players == 1
+      @player_two = "X" if @player_one != "X"
+      @player_two = "O" if @player_one == "X"
+    end
 
     puts "Player 1: \"#{@player_one}\""
     puts "Player 2: \"#{@player_two}\""
@@ -159,3 +174,4 @@ end#class Game
 game = Game.new
 # game.start_game
 game.prompt_for_players
+game.assign_gamepieces
