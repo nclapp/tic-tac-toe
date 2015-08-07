@@ -10,8 +10,8 @@ class Game
     @player_one = gets.chomp.to_s
     puts "Player 2, what letter would you like to be?"
     @player_two = gets.chomp.to_s
-    puts "Player 1: \"#{@player_one}.\""
-    puts "Player 2: \"#{@player_two}.\""
+    puts "Player 1: \"#{@player_one}\""
+    puts "Player 2: \"#{@player_two}\""
   end
 
   def start_game
