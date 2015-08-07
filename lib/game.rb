@@ -1,3 +1,11 @@
+class Board
+  def initialize
+    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    # @com = "X"
+    # @hum = "O"
+  end
+end#class Board
+
 class Game
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
@@ -7,12 +15,24 @@ class Game
 
   def prompt_for_gamepiece
     puts "Player 1, what letter would you like to be?"
-    @player_one = gets.chomp.to_s
+    get_gamepiece_choice
+    @player_one = gamepiece_choice
+
     puts "Player 2, what letter would you like to be?"
-    @player_two = gets.chomp.to_s
+    get_gamepiece_choice
     check_for_unique_gamepiece
+    @player_two = gamepiece_choice
+
     puts "Player 1: \"#{@player_one}\""
     puts "Player 2: \"#{@player_two}\""
+  end
+
+  def get_gamepiece_choice
+    gamepiece_choice = gets.chomp.to_s
+    while !valid_gamepiece?(gamepiece_choice)
+       puts "Please choose a single non-numeric character:"
+       gamepiece_choice = gets.chomp.to_s
+    end
   end
 
   def check_for_unique_gamepiece
@@ -22,14 +42,16 @@ class Game
     end
   end
 
+  def valid_gamepiece?(choice)
+    (choice.length == 1) && !(@board.include?(choice))
+  end
+
   def draw_board
-    puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|
-        \n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|
-        \n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
+    puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
 
   def start_game
-    puts "Welcome to my Tic Tac Toe game"
+    puts "Welcome to my Tic Tac Toe game!"
     prompt_for_gamepiece
     draw_board
     puts "Please select your spot."
@@ -123,4 +145,9 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
+# game.start_game
+# game.prompt_for_gamepiece
+
+p game.valid_gamepiece?(3.to_s)
+p game.valid_gamepiece?("Hi")
+p game.valid_gamepiece?("X")
