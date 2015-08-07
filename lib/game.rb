@@ -30,13 +30,15 @@ class Game
     puts "Game over"
   end
 
-  def prompt_for_players
+  def prompt_for_players # TRYING TO VALIDATE THAT IT'S A NUMBER. TO_I CONVERTS ANY LETTER TO 0 SO IT'S FAILING
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
     @num_players = gets.chomp.to_i
-    until @num_players.between?(0,2)
+    until @num_players.is_a?(Numeric) #&& @num_players.between?(0,2)
+      puts @num_players
+      puts @num_players.is_a?(Numeric)
       puts "Please pick 0, 1, or 2!"
-      @num_players = gets.chomp.to_i
+      @num_players = gets.chomp
     end
     puts "Great, get ready for a #{@num_players}-player game!"
   end
@@ -49,15 +51,13 @@ class Game
 
     if @num_players > 0
       puts "Player 1, what letter would you like to be?"
-      get_gamepiece_choice
-      @player_one = @gamepiece_choice
+      @player_one = get_gamepiece_choice
     end
 
     if @num_players > 1
       puts "Player 2, what letter would you like to be?"
-      get_gamepiece_choice
-      @player_two = @gamepiece_choice
-      ensure_unique_gamepiece
+      @player_two = get_gamepiece_choice
+      ensure_unique_gamepieces
     end
 
     if @num_players == 1
@@ -70,23 +70,26 @@ class Game
   end
 
   def get_gamepiece_choice
-    @gamepiece_choice = gets.chomp.to_s
-    until valid_gamepiece?(@gamepiece_choice)
+    gamepiece_choice = gets.chomp.to_s
+    until valid_gamepiece?(gamepiece_choice)
       puts "Please choose a single non-numeric character:"
-      @gamepiece_choice = gets.chomp.to_s
+      gamepiece_choice = gets.chomp.to_s
     end
+    gamepiece_choice
   end
 
-  def ensure_unique_gamepiece
+  def valid_gamepiece?(choice)
+    (choice.length == 1) && !(@board.include?(choice))
+  end
+
+  def ensure_unique_gamepieces
     until @player_one != @player_two && valid_gamepiece?(@player_two)
       puts "\"#{@player_two}\" is in use or invalid, please pick another character:"
       @player_two = gets.chomp.to_s
     end
   end
 
-  def valid_gamepiece?(choice)
-    (choice.length == 1) && !(@board.include?(choice))
-  end
+
 
   def draw_board
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
