@@ -18,11 +18,11 @@ class Game
   def prompt_for_gamepiece
     puts "Player 1, what letter would you like to be?"
     get_gamepiece_choice
-    @player_one = gamepiece_choice
+    @player_one = @gamepiece_choice
 
     puts "Player 2, what letter would you like to be?"
     get_gamepiece_choice
-    @player_two = gamepiece_choice
+    @player_two = @gamepiece_choice
     check_for_unique_gamepiece
 
     puts "Player 1: \"#{@player_one}\""
@@ -30,16 +30,17 @@ class Game
   end
 
   def get_gamepiece_choice
-    gamepiece_choice = gets.chomp.to_s
-    while !valid_gamepiece?(gamepiece_choice)
+    @gamepiece_choice = gets.chomp.to_s
+    until valid_gamepiece?(@gamepiece_choice)
        puts "Please choose a single non-numeric character:"
-       gamepiece_choice = gets.chomp.to_s
+       @gamepiece_choice = gets.chomp.to_s
+
     end
   end
 
   def check_for_unique_gamepiece
-    while @player_one == @player_two
-      puts "\"#{@player_two}\" is in use, please pick another character:"
+    until @player_one != @player_two && valid_gamepiece?(@player_two)
+      puts "\"#{@player_two}\" is in use or invalid, please pick another character:"
       @player_two = gets.chomp.to_s
     end
   end
