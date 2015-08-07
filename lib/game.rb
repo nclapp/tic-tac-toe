@@ -7,9 +7,9 @@ class Game
 
   def prompt_for_gamepiece
     puts "Player 1, what letter would you like to be?"
-    gets @player_one
+    @player_one = gets.chomp.to_s
     puts "Thanks. Player 2, what letter would you like to be?"
-    gets @player_two
+    @player_two = gets.chomp.to_s
     puts "Player 1 is #{@player_one}, and Player 2 is #{player_two}."
   end
 
@@ -113,4 +113,5 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
+# game.start_game
+game.prompt_for_gamepiece
