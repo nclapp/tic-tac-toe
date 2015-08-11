@@ -17,7 +17,7 @@ class Game
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
 
-  def prompt_for_players # TRYING TO VALIDATE THAT IT'S A NUMBER. TO_I CONVERTS ANY LETTER TO 0 SO IT'S FAILING
+  def prompt_for_players #TRYING TO VALIDATE THAT IT'S A NUMBER. TO_I CONVERTS ANY LETTER TO 0 SO IT'S FAILING
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
     @num_players = gets.chomp.to_i
@@ -77,6 +77,21 @@ class Game
     (choice.length == 1) && !(@board.include?(choice))
   end
 
+  def game_is_over?(b)
+    [b[0], b[1], b[2]].uniq.length == 1 ||
+      [b[3], b[4], b[5]].uniq.length == 1 ||
+      [b[6], b[7], b[8]].uniq.length == 1 ||
+      [b[0], b[3], b[6]].uniq.length == 1 ||
+      [b[1], b[4], b[7]].uniq.length == 1 ||
+      [b[2], b[5], b[8]].uniq.length == 1 ||
+      [b[0], b[4], b[8]].uniq.length == 1 ||
+      [b[2], b[4], b[6]].uniq.length == 1
+  end
+
+  def tie?(b)
+    b.all? { |s| s == "X" || s == "O" }
+  end
+
   def begin_gameplay
     puts "Please select your spot."
     until game_is_over?(@board) || tie?(@board)
@@ -89,8 +104,8 @@ class Game
     puts "Game over"
   end
 
-# pseudocode
-# def begin_gameplay
+  # pseudocode
+  # def begin_gameplay
 
   # if @num_players == 0
   #   until game_is_over?
@@ -98,21 +113,23 @@ class Game
   #     computer 2 play
   #   end
   #   display_winner
-# end
+  # end
 
-# if @num_players == 1
-#   until game_is_over?
-#     player_one play
-#     computer play
-#   end
-#   display_winner
-# end
+  # if @num_players == 1
+  #   until game_is_over?
+  #     player_one play
+  #     computer play
+  #   end
+  #   display_winner
+  # end
 
-# if @num_players == 2
-#   until game_is_over
-#     player_one play
-#     player_two play
-# end
+  # if @num_players == 2
+  #   until game_is_over?
+  #     player_one play
+  #     player_two play
+  #   end
+  #   display_winner
+  # end
 
 
 
@@ -179,20 +196,7 @@ class Game
     end
   end
 
-  def game_is_over?(b)
-    [b[0], b[1], b[2]].uniq.length == 1 ||
-      [b[3], b[4], b[5]].uniq.length == 1 ||
-      [b[6], b[7], b[8]].uniq.length == 1 ||
-      [b[0], b[3], b[6]].uniq.length == 1 ||
-      [b[1], b[4], b[7]].uniq.length == 1 ||
-      [b[2], b[5], b[8]].uniq.length == 1 ||
-      [b[0], b[4], b[8]].uniq.length == 1 ||
-      [b[2], b[4], b[6]].uniq.length == 1
-  end
 
-  def tie?(b)
-    b.all? { |s| s == "X" || s == "O" }
-  end
 
 end#class Game
 
