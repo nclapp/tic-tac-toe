@@ -10,8 +10,7 @@ class Game
     draw_board
     prompt_for_players
     assign_gamepieces
-    #begin_gameplay
-    #(call method to play game)
+    begin_gameplay
   end
 
   def draw_board
@@ -78,10 +77,6 @@ class Game
     (choice.length == 1) && !(@board.include?(choice))
   end
 
-
-
-
-
   def begin_gameplay
     puts "Please select your spot."
     until game_is_over?(@board) || tie?(@board)
@@ -94,8 +89,30 @@ class Game
     puts "Game over"
   end
 
+# pseudocode
+# def begin_gameplay
 
+  # if @num_players == 0
+  #   until game_is_over?
+  #     computer 1 play
+  #     computer 2 play
+  #   end
+  #   display_winner
+# end
 
+# if @num_players == 1
+#   until game_is_over?
+#     player_one play
+#     computer play
+#   end
+#   display_winner
+# end
+
+# if @num_players == 2
+#   until game_is_over
+#     player_one play
+#     player_two play
+# end
 
 
 
@@ -180,6 +197,6 @@ class Game
 end#class Game
 
 game = Game.new
-game.begin_playing
+game.begin_gameplay
 # game.prompt_for_players
 # game.assign_gamepieces
