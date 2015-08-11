@@ -21,9 +21,9 @@ class Game
     assign_gamepieces
     draw_board
     puts "Please select your spot."
-    until game_is_over(@board) || tie(@board)
+    until game_is_over?(@board) || tie(@board)
       get_human_spot
-      if !game_is_over(@board) && !tie(@board)
+      if !game_is_over?(@board) && !tie(@board)
         eval_board
       end
       draw_board
@@ -139,13 +139,13 @@ class Game
     end
     available_spaces.each do |as|
       board[as.to_i] = @com
-      if game_is_over(board)
+      if game_is_over?(board)
         best_move = as.to_i
         board[as.to_i] = as
         return best_move
       else
         board[as.to_i] = @hum
-        if game_is_over(board)
+        if game_is_over?(board)
           best_move = as.to_i
           board[as.to_i] = as
           return best_move
@@ -162,15 +162,14 @@ class Game
     end
   end
 
-  def game_is_over(b)
+  def game_is_over?(b)
     [b[0], b[1], b[2]].uniq.length == 1 ||
     [b[3], b[4], b[5]].uniq.length == 1 ||
     [b[6], b[7], b[8]].uniq.length == 1 ||
     [b[0], b[3], b[6]].uniq.length == 1 ||
     [b[1], b[4], b[7]].uniq.length == 1 ||
     [b[2], b[5], b[8]].uniq.length == 1 ||
-    [b[0], b[4], b[8]].uniq.length == 1 ||\
-
+    [b[0], b[4], b[8]].uniq.length == 1 ||
     [b[2], b[4], b[6]].uniq.length == 1
   end
 
