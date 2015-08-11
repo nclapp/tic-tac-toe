@@ -143,7 +143,7 @@ class Game
     spot = nil
     until spot
       spot = gets.chomp.to_i
-      if @board[spot] != "X" && @board[spot] != "O"
+      if @board[spot] != @player_one && @board[spot] != @player_two
         @board[spot] = @hum
       else
         spot = nil
@@ -159,7 +159,7 @@ class Game
         @board[spot] = @com
       else
         spot = get_best_move(@board, @com)
-        if @board[spot] != "X" && @board[spot] != "O"
+        if @board[spot] != @player_one && @board[spot] != @player_two
           @board[spot] = @com
         else
           spot = nil
@@ -172,7 +172,7 @@ class Game
     available_spaces = []
     best_move = nil
     board.each do |s|
-      if s != "X" && s != "O"
+      if s != @player_one && s != @player_two
         available_spaces << s
       end
     end
