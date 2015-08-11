@@ -19,7 +19,7 @@ class Game
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
 
-  def prompt_for_players #TRYING TO VALIDATE THAT IT'S A NUMBER. TO_I CONVERTS ANY LETTER TO 0 SO IT'S FAILING
+  def prompt_for_players #TO_I CONVERTS ANY LETTER TO 0, need to fix
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
     @num_players = gets.chomp.to_i
@@ -91,9 +91,7 @@ class Game
   end
 
   def all_squares_filled?(current_board)
-    [@starting_board, current_board].flatten.uniq.length == @starting_board.length + 2
-    current_board.each do |square|
-
+    [@player_one, @player_two].sort == current_board.uniq.sort
   end
 
   def begin_gameplay
