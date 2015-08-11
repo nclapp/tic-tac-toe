@@ -2,7 +2,9 @@ require 'pry'
 
 class Game
   def initialize
-    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @starting_board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @board = @starting_board
+    @turns_taken = []
   end
 
   def start_game
@@ -77,26 +79,28 @@ class Game
     (choice.length == 1) && !(@board.include?(choice))
   end
 
-  def game_is_over?(b)
-    [b[0], b[1], b[2]].uniq.length == 1 ||
-      [b[3], b[4], b[5]].uniq.length == 1 ||
-      [b[6], b[7], b[8]].uniq.length == 1 ||
-      [b[0], b[3], b[6]].uniq.length == 1 ||
-      [b[1], b[4], b[7]].uniq.length == 1 ||
-      [b[2], b[5], b[8]].uniq.length == 1 ||
-      [b[0], b[4], b[8]].uniq.length == 1 ||
-      [b[2], b[4], b[6]].uniq.length == 1
+  def game_is_won?(current_board)
+    [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
+    [current_board[3], current_board[4], current_board[5]].uniq.length == 1 ||
+    [current_board[6], current_board[7], current_board[8]].uniq.length == 1 ||
+    [current_board[0], current_board[3], current_board[6]].uniq.length == 1 ||
+    [current_board[1], current_board[4], current_board[7]].uniq.length == 1 ||
+    [current_board[2], current_board[5], current_board[8]].uniq.length == 1 ||
+    [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
+    [current_board[2], current_board[4], current_board[6]].uniq.length == 1
   end
 
-  def tie?(b)
-    b.all? { |s| s == "X" || s == "O" }
+  def all_squares_filled?(current_board)
+    [@starting_board, current_board].flatten.uniq.length == @starting_board.length + 2
+    current_board.each do |square|
+
   end
 
   def begin_gameplay
     puts "Please select your spot."
-    until game_is_over?(@board) || tie?(@board)
+    until game_is_won?(@board) || all_squares_filled?(@board)
       get_human_spot
-      if !game_is_over?(@board) && !tie?(@board)
+      if !game_is_won?(@board) && !all_squares_filled?(@board)
         eval_board
       end
       draw_board
@@ -105,10 +109,11 @@ class Game
   end
 
   # pseudocode
-  # def begin_gameplay
+
+  # def begin_gameplay(players)
 
   # if @num_players == 0
-  #   until game_is_over?
+  #   until game_is_won?
   #     computer 1 play
   #     computer 2 play
   #   end
@@ -116,7 +121,7 @@ class Game
   # end
 
   # if @num_players == 1
-  #   until game_is_over?
+  #   until game_is_won?
   #     player_one play
   #     computer play
   #   end
@@ -124,7 +129,7 @@ class Game
   # end
 
   # if @num_players == 2
-  #   until game_is_over?
+  #   until game_is_won?
   #     player_one play
   #     player_two play
   #   end
@@ -173,13 +178,13 @@ class Game
     end
     available_spaces.each do |as|
       board[as.to_i] = @com
-      if game_is_over?(board)
+      if game_is_won?(board)
         best_move = as.to_i
         board[as.to_i] = as
         return best_move
       else
         board[as.to_i] = @hum
-        if game_is_over?(board)
+        if game_is_won?(board)
           best_move = as.to_i
           board[as.to_i] = as
           return best_move
