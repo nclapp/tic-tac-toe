@@ -2,7 +2,7 @@ require 'pry'
 
 class Game
   def initialize
-    @starting_board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @starting_board = ["0", "1", "2", "X", "4", "5", "6", "7", "8"]
     @board = @starting_board
     @turns_taken = []
   end
@@ -16,7 +16,14 @@ class Game
   end
 
   def draw_board
-    puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
+    # puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
+    puts "•———•———•———•"
+    puts "| #{@board[0]} | #{@board[1]} | #{@board[2]} |"
+    puts "•———+———+———•"
+    puts "| #{@board[3]} | #{@board[4]} | #{@board[5]} |"
+    puts "•———+———+———•"
+    puts "| #{@board[6]} | #{@board[7]} | #{@board[8]} |"
+    puts "•———•———•———•"
   end
 
   def prompt_for_players #TO_I CONVERTS ANY LETTER TO 0, need to fix
@@ -201,6 +208,7 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
+# game.start_game
+game.draw_board
 # game.prompt_for_players
 # game.assign_gamepieces
