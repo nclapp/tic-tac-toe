@@ -1,54 +1,35 @@
 require 'pry'
 
-class Board
-  attr_reader :board
-  def initialize
-    # @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    # @com = "X"
-    # @hum = "O"
-  end
-end#class Board
-
 class Game
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    # @com = "X"
-    # @hum = "O"
+  end
+
+  def start_game
+    puts "Welcome to my Tic Tac Toe game!"
+    draw_board
+    prompt_for_players
+    assign_gamepieces
+    #begin_gameplay
+    #(call method to play game)
   end
 
   def draw_board
     puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
   end
 
-  def start_game
-    puts "Welcome to my Tic Tac Toe game!"
-    assign_gamepieces
-    draw_board
-    puts "Please select your spot."
-    until game_is_over?(@board) || tie?(@board)
-      get_human_spot
-      if !game_is_over?(@board) && !tie?(@board)
-        eval_board
-      end
-      draw_board
-    end
-    puts "Game over"
-  end
-
   def prompt_for_players # TRYING TO VALIDATE THAT IT'S A NUMBER. TO_I CONVERTS ANY LETTER TO 0 SO IT'S FAILING
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
     @num_players = gets.chomp.to_i
-    until @num_players.between?(0,2) # @num_players.is_a?(Numeric) &&
-      # puts @num_players
-      # puts @num_players.is_a?(Numeric)
+    until @num_players.between?(0,2)
       puts "Please pick 0, 1, or 2!"
       @num_players = gets.chomp
     end
     if @num_players == 0
       puts "Get ready to watch a computer vs. computer game!"
     else
-      puts "Get ready for a #{@num_players}-player game!"
+      puts "Get ready to play a #{@num_players}-player game!"
     end
   end
 
@@ -73,7 +54,6 @@ class Game
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
-
     puts "Player 1: \"#{@player_one}\""
     puts "Player 2: \"#{@player_two}\""
   end
@@ -87,15 +67,31 @@ class Game
     gamepiece_choice
   end
 
-  def valid_gamepiece?(choice) # could break down further into two separate methods #one_char_long? and #not_on_board?
-    (choice.length == 1) && !(@board.include?(choice))
-  end
-
   def ensure_unique_gamepieces
     until @player_one != @player_two && valid_gamepiece?(@player_two)
       puts "\"#{@player_two}\" is in use or invalid, please pick another character:"
       @player_two = gets.chomp.to_s
     end
+  end
+
+  def valid_gamepiece?(choice) # could break down further into two separate methods #one_char_long? and #not_on_board?
+    (choice.length == 1) && !(@board.include?(choice))
+  end
+
+
+
+
+
+  def begin_gameplay
+    puts "Please select your spot."
+    until game_is_over?(@board) || tie?(@board)
+      get_human_spot
+      if !game_is_over?(@board) && !tie?(@board)
+        eval_board
+      end
+      draw_board
+    end
+    puts "Game over"
   end
 
 
@@ -184,6 +180,6 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
+game.begin_playing
 # game.prompt_for_players
 # game.assign_gamepieces
