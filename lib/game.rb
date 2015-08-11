@@ -2,9 +2,8 @@ require 'pry'
 
 class Game
   def initialize
-    @starting_board = ["0", "1", "2", "X", "4", "5", "6", "7", "8"]
-    @board = @starting_board
-    @turns_taken = []
+    @board = ["0", "1", "2", "X", "4", "5", "6", "7", "8"]
+    # @turns_taken = []
   end
 
   def start_game
@@ -84,6 +83,10 @@ class Game
 
   def valid_gamepiece?(choice) # could break down further into two separate methods
     (choice.length == 1) && !(@board.include?(choice))
+  end
+
+  def swap_player_pieces
+    @player_one, @player_two = @player_two, @player_one
   end
 
   def game_is_won?(current_board)
@@ -170,30 +173,34 @@ class Game
     end
   end
 
-  def get_best_move(board, next_player, depth = 0, best_score = {})
-    available_spaces = []
-    best_move = nil
-
-    board.each do |s|
-      if s != @player_one && s != @player_two
-        available_spaces << s
+  def get_empty_squares(board)
+    @empty_squares = []
+    board.each do |square|
+      if square != @player_one && square != @player_two
+        @empty_squares << square
       end
     end
+  end
 
-    available_spaces.each do |as|
-      board[as.to_i] = @com
+  def get_best_move(board, next_player, depth = 0, best_score = {})
+    best_move = nil
+
+    get_empty_squares(board)
+
+    @empty_squares.each do |empty_sq|
+      board[empty_sq.to_i] = @com
       if game_is_won?(board)
-        best_move = as.to_i
-        board[as.to_i] = as
+        best_move = empty_sq.to_i
+        board[empty_sq.to_i] = empty_sq
         return best_move
       else
-        board[as.to_i] = @hum
+        board[empty_sq.to_i] = @hum
         if game_is_won?(board)
-          best_move = as.to_i
-          board[as.to_i] = as
+          best_move = empty_sq.to_i
+          board[empty_sq.to_i] = empty_sq
           return best_move
         else
-          board[as.to_i] = as
+          board[empty_sq.to_i] = empty_sq
         end
       end
     end
@@ -201,8 +208,8 @@ class Game
     if best_move
       return best_move
     else
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
+      n = rand(0..@empty_squares.count)
+      return @empty_squares[n].to_i
     end
 
   end
