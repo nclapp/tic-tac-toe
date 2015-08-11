@@ -1,6 +1,7 @@
 require 'pry'
 
 class Board
+  attr_reader :board
   def initialize
     # @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     # @com = "X"
@@ -34,13 +35,17 @@ class Game
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
     @num_players = gets.chomp.to_i
-    until @num_players.is_a?(Numeric) #&& @num_players.between?(0,2)
-      puts @num_players
-      puts @num_players.is_a?(Numeric)
+    until @num_players.between?(0,2) # @num_players.is_a?(Numeric) &&
+      # puts @num_players
+      # puts @num_players.is_a?(Numeric)
       puts "Please pick 0, 1, or 2!"
       @num_players = gets.chomp
     end
-    puts "Great, get ready for a #{@num_players}-player game!"
+    if @num_players == 0
+      puts "Get ready to watch a computer vs. computer game!"
+    else
+      puts "Get ready for a #{@num_players}-player game!"
+    end
   end
 
   def assign_gamepieces
@@ -78,7 +83,7 @@ class Game
     gamepiece_choice
   end
 
-  def valid_gamepiece?(choice)
+  def valid_gamepiece?(choice) # could break down further into two separate methods
     (choice.length == 1) && !(@board.include?(choice))
   end
 
@@ -159,13 +164,14 @@ class Game
 
   def game_is_over(b)
     [b[0], b[1], b[2]].uniq.length == 1 ||
-      [b[3], b[4], b[5]].uniq.length == 1 ||
-      [b[6], b[7], b[8]].uniq.length == 1 ||
-      [b[0], b[3], b[6]].uniq.length == 1 ||
-      [b[1], b[4], b[7]].uniq.length == 1 ||
-      [b[2], b[5], b[8]].uniq.length == 1 ||
-      [b[0], b[4], b[8]].uniq.length == 1 ||
-      [b[2], b[4], b[6]].uniq.length == 1
+    [b[3], b[4], b[5]].uniq.length == 1 ||
+    [b[6], b[7], b[8]].uniq.length == 1 ||
+    [b[0], b[3], b[6]].uniq.length == 1 ||
+    [b[1], b[4], b[7]].uniq.length == 1 ||
+    [b[2], b[5], b[8]].uniq.length == 1 ||
+    [b[0], b[4], b[8]].uniq.length == 1 ||\
+
+    [b[2], b[4], b[6]].uniq.length == 1
   end
 
   def tie(b)
