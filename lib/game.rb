@@ -2,15 +2,19 @@ require 'pry'
 
 class Game
   def initialize
-    @board = ["0", "1", "2", "X", "4", "5", "6", "7", "8"]
-    # @turns_taken = []
+    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @num_human_players
+    @player_one
+    @player_two
+    @player_order = []
   end
 
   def start_game
-    puts "Welcome to my Tic Tac Toe game!"
+    puts "Welcome to my Tic-Tac-Toe game!"
     draw_board
     prompt_for_players
     assign_gamepieces
+    set_player_order
     begin_gameplay
   end
 
@@ -28,36 +32,36 @@ class Game
   def prompt_for_players #TO_I CONVERTS ANY LETTER TO 0, need to fix
     puts "How many players?"
     puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
-    @num_players = gets.chomp.to_i
-    until @num_players.between?(0,2)
+    @num_human_players = gets.chomp.to_i
+    until @num_human_players.between?(0,2)
       puts "Please pick 0, 1, or 2!"
-      @num_players = gets.chomp
+      @num_human_players = gets.chomp
     end
-    if @num_players == 0
+    if @num_human_players == 0
       puts "Get ready to watch a computer vs. computer game!"
     else
-      puts "Get ready to play a #{@num_players}-player game!"
+      puts "Get ready to play a #{@num_human_players}-player game!"
     end
   end
 
   def assign_gamepieces
-    if @num_players == 0
+    if @num_human_players == 0
       @player_one = "X"
       @player_two = "O"
     end
 
-    if @num_players > 0
+    if @num_human_players > 0
       puts "Player 1, what letter would you like to be?"
       @player_one = get_gamepiece_choice
     end
 
-    if @num_players > 1
+    if @num_human_players > 1
       puts "Player 2, what letter would you like to be?"
       @player_two = get_gamepiece_choice
       ensure_unique_gamepieces
     end
 
-    if @num_players == 1
+    if @num_human_players == 1
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
@@ -87,6 +91,20 @@ class Game
 
   def swap_player_pieces
     @player_one, @player_two = @player_two, @player_one
+  end
+
+  def set_player_order
+    default_order = [@player_one, @player_two]
+    puts "Who should go first, Player 1 (#{@player_one}) or Player 2 (#{@player_two})?"
+    puts "Enter 1 for Player 1, or 2 for Player 2:"
+    first_player = gets.chomp.to_i
+    case first_player
+    when 1
+      @player_order = default_order
+    when 2
+      @player_order = default_order.reverse
+    end
+    # puts @player_order
   end
 
   def game_is_won?(current_board)
@@ -128,7 +146,7 @@ class Game
   # def begin_gameplay
   #   puts "Please select your spot."
   #   until game_is_won?(@board) || all_squares_filled?(@board)
-  #     case @num_players
+  #     case @num_human_players
   #     when 0
   #       computer 1 play
   #       computer 2 play
@@ -220,7 +238,8 @@ class Game
 end#class Game
 
 game = Game.new
-# game.start_game
-game.draw_board
+game.start_game
+# game.draw_board
 # game.prompt_for_players
 # game.assign_gamepieces
+# game.set_player_order
