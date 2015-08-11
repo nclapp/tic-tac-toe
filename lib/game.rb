@@ -173,11 +173,13 @@ class Game
   def get_best_move(board, next_player, depth = 0, best_score = {})
     available_spaces = []
     best_move = nil
+
     board.each do |s|
       if s != @player_one && s != @player_two
         available_spaces << s
       end
     end
+
     available_spaces.each do |as|
       board[as.to_i] = @com
       if game_is_won?(board)
@@ -195,15 +197,18 @@ class Game
         end
       end
     end
+
     if best_move
       return best_move
     else
       n = rand(0..available_spaces.count)
       return available_spaces[n].to_i
     end
+
   end
 
-
+#THINGS I'D LIKE TO DO:
+# Divide into Board, Player, and Game classes
 
 end#class Game
 
