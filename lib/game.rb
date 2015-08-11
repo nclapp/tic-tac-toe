@@ -21,9 +21,9 @@ class Game
     assign_gamepieces
     draw_board
     puts "Please select your spot."
-    until game_is_over?(@board) || tie(@board)
+    until game_is_over?(@board) || tie?(@board)
       get_human_spot
-      if !game_is_over?(@board) && !tie(@board)
+      if !game_is_over?(@board) && !tie?(@board)
         eval_board
       end
       draw_board
@@ -173,7 +173,7 @@ class Game
     [b[2], b[4], b[6]].uniq.length == 1
   end
 
-  def tie(b)
+  def tie?(b)
     b.all? { |s| s == "X" || s == "O" }
   end
 
