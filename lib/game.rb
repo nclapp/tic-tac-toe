@@ -75,7 +75,7 @@ class Game
     end
   end
 
-  def valid_gamepiece?(choice) # could break down further into two separate methods #one_char_long? and #not_on_board?
+  def valid_gamepiece?(choice) # could break down further into two separate methods
     (choice.length == 1) && !(@board.include?(choice))
   end
 
@@ -90,6 +90,12 @@ class Game
     [current_board[2], current_board[4], current_board[6]].uniq.length == 1
   end
 
+  # def winner
+  #   if game_is_won?
+
+  #   end
+  # end
+
   def all_squares_filled?(current_board)
     [@player_one, @player_two].sort == current_board.uniq.sort
   end
@@ -98,46 +104,37 @@ class Game
     puts "Please select your spot."
     until game_is_won?(@board) || all_squares_filled?(@board)
       get_human_spot
+
       if !game_is_won?(@board) && !all_squares_filled?(@board)
         eval_board
       end
+
       draw_board
     end
     puts "Game over"
   end
 
-  # pseudocode
-
-  # def begin_gameplay(players)
-
-  # if @num_players == 0
-  #   until game_is_won?
-  #     computer 1 play
-  #     computer 2 play
-  #   end
-  #   display_winner
-  # end
-
-  # if @num_players == 1
-  #   until game_is_won?
-  #     player_one play
-  #     computer play
-  #   end
-  #   display_winner
-  # end
-
-  # if @num_players == 2
-  #   until game_is_won?
-  #     player_one play
-  #     player_two play
+  # PSEUDO CODE, WORKING ON THIS NOW
+  # def begin_gameplay
+  #   puts "Please select your spot."
+  #   until game_is_won?(@board) || all_squares_filled?(@board)
+  #     case @num_players
+  #     when 0
+  #       computer 1 play
+  #       computer 2 play
+  #     when 1
+  #       player_one play
+  #       computer play
+  #     when 2
+  #       player_one play
+  #       player_two play
+  #     end
   #   end
   #   display_winner
   # end
 
 
-
-
-  def get_human_spot
+  def get_human_spot#(player)
     spot = nil
     until spot
       spot = gets.chomp.to_i
@@ -204,6 +201,6 @@ class Game
 end#class Game
 
 game = Game.new
-game.begin_gameplay
+game.start_game
 # game.prompt_for_players
 # game.assign_gamepieces
