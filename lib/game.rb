@@ -16,6 +16,10 @@ class Game
     # @hum = "O"
   end
 
+  def draw_board
+    puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
+  end
+
   def start_game
     puts "Welcome to my Tic Tac Toe game!"
     assign_gamepieces
@@ -83,7 +87,7 @@ class Game
     gamepiece_choice
   end
 
-  def valid_gamepiece?(choice) # could break down further into two separate methods
+  def valid_gamepiece?(choice) # could break down further into two separate methods #one_char_long? and #not_on_board?
     (choice.length == 1) && !(@board.include?(choice))
   end
 
@@ -96,9 +100,9 @@ class Game
 
 
 
-  def draw_board
-    puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
-  end
+
+
+
 
   def get_human_spot
     spot = nil
@@ -164,13 +168,13 @@ class Game
 
   def game_is_over?(b)
     [b[0], b[1], b[2]].uniq.length == 1 ||
-    [b[3], b[4], b[5]].uniq.length == 1 ||
-    [b[6], b[7], b[8]].uniq.length == 1 ||
-    [b[0], b[3], b[6]].uniq.length == 1 ||
-    [b[1], b[4], b[7]].uniq.length == 1 ||
-    [b[2], b[5], b[8]].uniq.length == 1 ||
-    [b[0], b[4], b[8]].uniq.length == 1 ||
-    [b[2], b[4], b[6]].uniq.length == 1
+      [b[3], b[4], b[5]].uniq.length == 1 ||
+      [b[6], b[7], b[8]].uniq.length == 1 ||
+      [b[0], b[3], b[6]].uniq.length == 1 ||
+      [b[1], b[4], b[7]].uniq.length == 1 ||
+      [b[2], b[5], b[8]].uniq.length == 1 ||
+      [b[0], b[4], b[8]].uniq.length == 1 ||
+      [b[2], b[4], b[6]].uniq.length == 1
   end
 
   def tie?(b)
@@ -180,6 +184,6 @@ class Game
 end#class Game
 
 game = Game.new
-# game.start_game
-game.prompt_for_players
-game.assign_gamepieces
+game.start_game
+# game.prompt_for_players
+# game.assign_gamepieces
