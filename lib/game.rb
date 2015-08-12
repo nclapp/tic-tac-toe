@@ -10,6 +10,7 @@ class Game
   end
 
   def start_new_game
+    puts "\e[H\e[2J" # clears terminal screen before drawing, probably not work cross-platform
     puts "Welcome to my Tic-Tac-Toe game!"
     draw_board
     prompt_for_players
