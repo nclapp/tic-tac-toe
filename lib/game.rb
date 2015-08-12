@@ -7,6 +7,7 @@ class Game
     @player_one
     @player_two
     @player_order = []
+    @empty_squares = [] # also declared in #get_empty_squares, has to reset every time
   end
 
   def start_new_game
