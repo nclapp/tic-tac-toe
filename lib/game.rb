@@ -9,7 +9,7 @@ class Game
     @player_order = []
   end
 
-  def start_game
+  def start_new_game
     puts "Welcome to my Tic-Tac-Toe game!"
     draw_board
     prompt_for_players
@@ -238,7 +238,7 @@ class Game
 end#class Game
 
 game = Game.new
-game.start_game
+game.start__newgame
 # game.draw_board
 # game.prompt_for_players
 # game.assign_gamepieces
