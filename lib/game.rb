@@ -45,7 +45,7 @@ class Game
     @num_human_players = gets.chomp.to_i
     until @num_human_players.between?(0,2)
       puts "Please pick 0, 1, or 2!"
-      @num_human_players = gets.chomp
+      @num_human_players = gets.chomp.to_i
     end
     if @num_human_players == 0
       puts "Get ready to watch a computer vs. computer game!"
