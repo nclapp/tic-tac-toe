@@ -6,7 +6,7 @@ class Game
     @num_human_players
     @player_one
     @player_two
-    @player_order = []
+    @players_in_order = []
     @empty_squares = [] # also declared in #get_empty_squares, has to reset every time
   end
 
@@ -106,22 +106,23 @@ class Game
   def set_player_order
     default_order = [@player_one, @player_two]
     if @num_human_players == 0
-      @player_order = default_order
+      @players_in_order = default_order
     else
       puts "Who should go first, Player 1 (#{@player_one}) or Player 2 (#{@player_two})?"
       puts "Enter 1 for Player 1, or 2 for Player 2:"
       first_player = gets.chomp.to_i
       case first_player
       when 1
-        @player_order = default_order
+        @players_in_order = default_order
       when 2
-        @player_order = default_order.reverse
+        @players_in_order = default_order.reverse
       end
     end
   end
 
   def begin_gameplay
-    puts "Please select your spot."
+    # binding.pry
+    puts "#{@players_in_order[0]}, please select your spot."
     until game_is_won?(@board) || all_squares_filled?(@board)
       get_human_spot
 
