@@ -101,18 +101,18 @@ class Game
   end
 
   def set_player_order
-    default_order = [@player_one, @player_two]
+    @default_order = [@player_one, @player_two]
     if @num_human_players == 0
-      @players_in_order = default_order
+      @players_in_order = @default_order
     else
       puts "Who should go first, Player 1 (\"#{@player_one}\") or Player 2 (\"#{@player_two}\")?"
       print "Enter 1 for Player 1, or 2 for Player 2: "
       first_player = gets.chomp.to_i
       case first_player
       when 1
-        @players_in_order = default_order
+        @players_in_order = @default_order
       when 2
-        @players_in_order = default_order.reverse
+        @players_in_order = @default_order.reverse
       end
     end
   end
@@ -130,12 +130,30 @@ class Game
   end
 
   def play_game
-    if @num_human_players > 0
+    if @num_human_players > 0 && @players_in_order == @default_order
       until game_is_won?(@board) || all_squares_filled?(@board)
         get_human_spot(1)
         if !game_is_won?(@board) && !all_squares_filled?(@board)
           second_player_play
         end
+        draw_board
+      end
+    elsif @num_human_players == 1 && @players_in_order == @default_order.reverse
+      until game_is_won?(@board) || all_squares_filled?(@board)
+        eval_board(2)
+        if !game_is_won?(@board) && !all_squares_filled?(@board)
+          second_player_play
+        end
+        clear_screen
+        draw_board
+      end
+    elsif @num_human_players == 2 && @players_in_order == @default_order.reverse
+      until game_is_won?(@board) || all_squares_filled?(@board)
+        eval_board(2)
+        if !game_is_won?(@board) && !all_squares_filled?(@board)
+          second_player_play
+        end
+        clear_screen
         draw_board
       end
     else
@@ -175,12 +193,16 @@ class Game
     draw_board
     if @num_human_players == 0
       eval_board(2)
-    elsif @num_human_players == 1
+    elsif @num_human_players == 1 && @players_in_order == @default_order
       puts "computer playing..."
       sleep(1)
       eval_board(2)
-    elsif @num_human_players == 2
+    elsif @num_human_players == 1 && @players_in_order == @default_order.reverse
       get_human_spot(2)
+    elsif @num_human_players == 2 && @players_in_order == @default_order
+      get_human_spot(2)
+    elsif @num_human_players == 2 && @players_in_order == @default_order.reverse
+      get_human_spot(1)
     end
   end
 
