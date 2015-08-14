@@ -277,16 +277,17 @@ class Game
     end
     puts "Thanks for playing!"
   end
-
-
-
-  #THINGS I'D LIKE TO DO:
-  # Divide into Board, Player, and Game classes
-  # Standardize sleep times etc. so flow is smooth between turns
-  # WRITE TESTS holy cow
-  # Clean this up, got messy and not DRY
-
 end#class Game
+
+
+
+#THINGS I'D LIKE TO DO:
+# Implement Minimax algorithm
+# Divide into Board, Player, and Game classes
+# Standardize sleep times etc. so flow is smooth between turns
+# WRITE TESTS holy cow
+# Clean this up, got messy and not DRY
+
 
 game = Game.new
 game.start_new_game
