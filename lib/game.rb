@@ -56,6 +56,9 @@ class Game
   end
 
   def assign_gamepieces
+    clear_screen
+    greet_player
+
     if @num_human_players == 0
       @player_one = "X"
       @player_two = "O"
