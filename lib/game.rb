@@ -107,7 +107,7 @@ class Game
     if @num_human_players == 0
       @players_in_order = default_order
     else
-      puts "Who should go first, Player 1 (#{@player_one}) or Player 2 (#{@player_two})?"
+      puts "Who should go first, Player 1 (\"#{@player_one}\") or Player 2 (\"#{@player_two}\")?"
       puts "Enter 1 for Player 1, or 2 for Player 2:"
       first_player = gets.chomp.to_i
       case first_player
@@ -122,7 +122,7 @@ class Game
   end
 
   def display_player_order
-    puts "\"#{@players_in_order[0]}\" plays first, \"#{@players_in_order[1]}\" plays second."
+    puts "#{@players_in_order[0]} plays first, #{@players_in_order[1]} plays second."
   end
 
   def begin_gameplay
