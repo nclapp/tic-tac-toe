@@ -134,11 +134,21 @@ class Game
   end
 
   def begin_gameplay
-    # binding.pry
     clear_screen
     display_player_order
     draw_board
-    # take_turns
+    play_game
+  end
+
+  def play_game
+    until game_is_won?(@board) || all_squares_filled?(@board)
+      get_human_spot
+      if !game_is_won?(@board) && !all_squares_filled?(@board)
+        eval_board
+      end
+      draw_board
+    end
+    puts "Game over"
   end
 
   def get_empty_squares(board)
