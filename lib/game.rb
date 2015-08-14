@@ -48,6 +48,7 @@ class Game
     end
     if @num_human_players == 0
       puts "\nGet ready to watch a computer vs. computer game!\n"
+      puts
     else
       puts "\nGet ready to play a #{@num_human_players}-player game!"
       puts
@@ -56,8 +57,8 @@ class Game
   end
 
   def assign_gamepieces
-    clear_screen
-    greet_player
+    # clear_screen
+    # greet_player
 
     if @num_human_players == 0
       @player_one = "X"
@@ -70,6 +71,7 @@ class Game
     end
 
     if @num_human_players > 1
+      puts
       print "Human \#2, pick your letter: "
       @player_two = get_gamepiece_choice
       ensure_unique_gamepieces
@@ -112,6 +114,7 @@ class Game
     if @num_human_players == 0
       @players_in_order = default_order
     else
+      puts
       puts "Who should go first, Player 1 (\"#{@player_one}\") or Player 2 (\"#{@player_two}\")?"
       print "Enter 1 for Player 1, or 2 for Player 2: "
       first_player = gets.chomp.to_i
@@ -122,7 +125,7 @@ class Game
         @players_in_order = default_order.reverse
       end
     end
-    display_player_order
+    # display_player_order
     # binding.pry
   end
 
@@ -132,6 +135,9 @@ class Game
 
   def begin_gameplay
     # binding.pry
+    clear_screen
+    display_player_order
+    puts
     puts "#{@players_in_order[0]}, please select your spot."
     until game_is_won?(@board) || all_squares_filled?(@board)
       get_human_spot
