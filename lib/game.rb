@@ -126,7 +126,7 @@ class Game
       end
     end
     # display_player_order
-    # binding.pry
+
   end
 
   def display_player_order
@@ -143,10 +143,9 @@ class Game
   def play_game
     if @num_human_players > 0
       until game_is_won?(@board) || all_squares_filled?(@board)
-        get_human_spot
+        get_human_spot(1)
         if !game_is_won?(@board) && !all_squares_filled?(@board)
           second_player_play
-          # eval_board
         end
         draw_board
       end
@@ -156,35 +155,61 @@ class Game
     puts "Game over"
   end
 
-  def get_human_1_spot
+  # def get_human_1_spot
+  #   clear_screen
+  #   draw_board
+  #   spot = nil
+  #   until spot
+  #     print "Player 1, please pick a spot: "
+  #     spot = gets.chomp.to_i
+  #     if @board[spot] != @player_one && @board[spot] != @player_two
+  #       @board[spot] = @player_one
+  #     else
+  #       spot = nil
+  #     end
+  #   end
+  # end
+
+  # def get_human_2_spot # can refactor human_1 and human_2 into one method
+  #   clear_screen
+  #   draw_board
+  #   spot = nil
+  #   until spot
+  #     print "Player 2, please pick a spot: "
+  #     spot = gets.chomp.to_i
+  #     if @board[spot] != @player_one && @board[spot] != @player_two
+  #       @board[spot] = @player_two
+  #     else
+  #       spot = nil
+  #     end
+  #   end
+  # end
+
+   def get_human_spot(player)
+    clear_screen
+    draw_board
     spot = nil
     until spot
+      print "Player #{player}, please pick a spot: "
       spot = gets.chomp.to_i
       if @board[spot] != @player_one && @board[spot] != @player_two
-        @board[spot] = @player_one
+        @board[spot] = @players_in_order[0] if player == 1
+        @board[spot] = @players_in_order[1] if player == 2
       else
         spot = nil
       end
     end
   end
 
-  def get_human_2_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if @board[spot] != @player_one && @board[spot] != @player_two
-        @board[spot] = @player_two
-      else
-        spot = nil
-      end
-    end
-  end
+
 
   def second_player_play
+
+
     if @num_human_players == 1
       eval_board
     elsif @num_human_players == 2
-      get_human_2_spot
+      get_human_spot(2)
     end
   end
 
@@ -243,6 +268,7 @@ class Game
   end
 
   def all_squares_filled?(current_board)
+
     [@player_one, @player_two].sort == current_board.uniq.sort
   end
 
