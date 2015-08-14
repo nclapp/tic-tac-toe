@@ -21,7 +21,7 @@ class Game
   end
 
   def clear_screen
-    puts "\e[H\e[2J" # clears terminal screen before drawing, probably not work cross-platform
+    puts "\e[H\e[2J" # probably not work cross-platform
   end
 
   def greet_player
@@ -105,16 +105,19 @@ class Game
 
   def set_player_order
     default_order = [@player_one, @player_two]
-    puts "Who should go first, Player 1 (#{@player_one}) or Player 2 (#{@player_two})?"
-    puts "Enter 1 for Player 1, or 2 for Player 2:"
-    first_player = gets.chomp.to_i
-    case first_player
-    when 1
+    if @num_human_players == 0
       @player_order = default_order
-    when 2
-      @player_order = default_order.reverse
+    else
+      puts "Who should go first, Player 1 (#{@player_one}) or Player 2 (#{@player_two})?"
+      puts "Enter 1 for Player 1, or 2 for Player 2:"
+      first_player = gets.chomp.to_i
+      case first_player
+      when 1
+        @player_order = default_order
+      when 2
+        @player_order = default_order.reverse
+      end
     end
-    # puts @player_order
   end
 
   def game_is_won?(current_board)
@@ -182,6 +185,10 @@ class Game
         spot = nil
       end
     end
+  end
+
+  def random_computer_move
+
   end
 
   def eval_board
