@@ -150,7 +150,13 @@ class Game
         draw_board
       end
     else
-      #computer vs computer game
+      until game_is_won?(@board) || all_squares_filled?(@board)
+        eval_board(1)
+        if !game_is_won?(@board) && !all_squares_filled?(@board)
+          second_player_play
+        end
+        draw_board
+      end
     end
     check_for_game_over
   end
@@ -173,7 +179,9 @@ class Game
   end
 
   def second_player_play
-    if @num_human_players == 1
+    if @num_human_players == 0
+      eval_board(2)
+    elsif @num_human_players == 1
       eval_board(2)
     elsif @num_human_players == 2
       get_human_spot(2)
@@ -187,8 +195,8 @@ class Game
   def eval_board(player)
     spot = nil
     until spot
-      spot = get_best_move(@board, @player_one) if player == 1
-      spot = get_best_move(@board, @player_two) if player == 2
+      spot = get_best_move(@board, 1) if player == 1
+      spot = get_best_move(@board, 2) if player == 2
       if @board[spot] != @player_one && @board[spot] != @player_two
         @board[spot] = @player_one if player == 1
         @board[spot] = @player_two if player == 2
@@ -198,11 +206,12 @@ class Game
     end
   end
 
-  def get_best_move(board, next_player, depth = 0, best_score = {})
+  def get_best_move(board, player)
     best_move = nil
     get_empty_squares(board)
     @empty_squares.each do |empty_sq|
-      board[empty_sq.to_i] = @player_two
+      board[empty_sq.to_i] = @player_one if player == 1
+      board[empty_sq.to_i] = @player_two if player == 2
       if game_is_won?(board)
         best_move = empty_sq.to_i
         board[empty_sq.to_i] = empty_sq
