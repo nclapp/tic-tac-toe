@@ -118,12 +118,12 @@ class Game
         @players_in_order = default_order.reverse
       end
     end
-    puts display_player_order
+    display_player_order
     # binding.pry
   end
 
   def display_player_order
-    "\"#{@players_in_order[0]}\" plays first, \"#{@players_in_order[1]}\" plays second."
+    puts "\"#{@players_in_order[0]}\" plays first, \"#{@players_in_order[1]}\" plays second."
   end
 
   def begin_gameplay
