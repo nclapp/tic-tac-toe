@@ -120,27 +120,6 @@ class Game
     end
   end
 
-  def game_is_won?(current_board)
-    [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
-    [current_board[3], current_board[4], current_board[5]].uniq.length == 1 ||
-    [current_board[6], current_board[7], current_board[8]].uniq.length == 1 ||
-    [current_board[0], current_board[3], current_board[6]].uniq.length == 1 ||
-    [current_board[1], current_board[4], current_board[7]].uniq.length == 1 ||
-    [current_board[2], current_board[5], current_board[8]].uniq.length == 1 ||
-    [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
-    [current_board[2], current_board[4], current_board[6]].uniq.length == 1
-  end
-
-  # def winner
-  #   if game_is_won?
-
-  #   end
-  # end
-
-  def all_squares_filled?(current_board)
-    [@player_one, @player_two].sort == current_board.uniq.sort
-  end
-
   def begin_gameplay
     puts "Please select your spot."
     until game_is_won?(@board) || all_squares_filled?(@board)
@@ -149,11 +128,11 @@ class Game
       if !game_is_won?(@board) && !all_squares_filled?(@board)
         eval_board
       end
-
       draw_board
     end
     puts "Game over"
   end
+
 
   # PSEUDO CODE, WORKING ON THIS NOW
   # def begin_gameplay
@@ -173,6 +152,32 @@ class Game
   #   end
   #   display_winner
   # end
+
+
+  def game_is_won?(current_board)
+    [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
+      [current_board[3], current_board[4], current_board[5]].uniq.length == 1 ||
+      [current_board[6], current_board[7], current_board[8]].uniq.length == 1 ||
+      [current_board[0], current_board[3], current_board[6]].uniq.length == 1 ||
+      [current_board[1], current_board[4], current_board[7]].uniq.length == 1 ||
+      [current_board[2], current_board[5], current_board[8]].uniq.length == 1 ||
+      [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
+      [current_board[2], current_board[4], current_board[6]].uniq.length == 1
+  end
+
+  # def winner
+  #   if game_is_won?
+
+  #   end
+  # end
+
+
+
+
+
+  def all_squares_filled?(current_board)
+    [@player_one, @player_two].sort == current_board.uniq.sort
+  end
 
 
   def get_human_spot#(player)
@@ -249,8 +254,8 @@ class Game
 
   end
 
-#THINGS I'D LIKE TO DO:
-# Divide into Board, Player, and Game classes
+  #THINGS I'D LIKE TO DO:
+  # Divide into Board, Player, and Game classes
 
 end#class Game
 
