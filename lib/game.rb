@@ -19,7 +19,7 @@ class Game
   end
 
   def clear_screen
-    puts "\e[H\e[2J" # probably not work cross-platform
+    puts "\e[H\e[2J"
   end
 
   def greet_player
@@ -37,7 +37,7 @@ class Game
     puts "•———•———•———•"
   end
 
-  def prompt_for_players #TO_I CONVERTS ANY LETTER TO 0, need to fix
+  def prompt_for_players
     print "Number of human players (0, 1, or 2): "
     @num_human_players = gets.chomp.to_i
     until @num_human_players.between?(0,2)
@@ -171,8 +171,8 @@ class Game
   end
 
   def second_player_play
-    # clear_screen
-    # draw_board
+    clear_screen
+    draw_board
     if @num_human_players == 0
       eval_board(2)
     elsif @num_human_players == 1
@@ -192,6 +192,7 @@ class Game
       if @board[spot] != @player_one && @board[spot] != @player_two
         sleep(0.5)
         puts "Player #{player} chose spot #{spot}."
+        sleep(0.5)
         @board[spot] = @player_one if player == 1
         @board[spot] = @player_two if player == 2
       else
@@ -282,7 +283,6 @@ class Game
 end#class Game
 
 class String
-  # colorization
   def colorize(color_code)
     "\e[#{color_code}m#{self}\e[0m"
   end
@@ -299,7 +299,7 @@ end#class String
 #THINGS I'D LIKE TO DO:
 # Implement Minimax algorithm
 # Divide into Board, Player, and Game classes
-# Standardize sleep times etc. so flow is smooth between turns
+# Standardize sleep times etc. so flow is smoother between turns
 # WRITE TESTS holy cow
 # Clean this up, got messy and not DRY
 
