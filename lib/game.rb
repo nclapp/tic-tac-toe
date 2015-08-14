@@ -29,7 +29,6 @@ class Game
   end
 
   def draw_board
-    # puts "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|"
     puts "•———•———•———•"
     puts "| #{@board[0]} | #{@board[1]} | #{@board[2]} |"
     puts "•———+———+———•"
