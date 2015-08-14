@@ -141,49 +141,50 @@ class Game
   end
 
   def play_game
-    until game_is_won?(@board) || all_squares_filled?(@board)
-      get_human_spot
-      if !game_is_won?(@board) && !all_squares_filled?(@board)
-        eval_board
+    if @num_human_players > 0
+      until game_is_won?(@board) || all_squares_filled?(@board)
+        get_human_spot
+        if !game_is_won?(@board) && !all_squares_filled?(@board)
+          second_player_play
+          # eval_board
+        end
+        draw_board
       end
-      draw_board
+    else
+      #computer vs computer game
     end
     puts "Game over"
   end
 
-  def get_empty_squares(board)
-    @empty_squares = []
-    board.each do |square|
-      if square != @player_one && square != @player_two
-        @empty_squares << square
-      end
-    end
-  end
-
-  def all_squares_filled?(current_board)
-    [@player_one, @player_two].sort == current_board.uniq.sort
-  end
-
-  def game_is_won?(current_board)
-    [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
-      [current_board[3], current_board[4], current_board[5]].uniq.length == 1 ||
-      [current_board[6], current_board[7], current_board[8]].uniq.length == 1 ||
-      [current_board[0], current_board[3], current_board[6]].uniq.length == 1 ||
-      [current_board[1], current_board[4], current_board[7]].uniq.length == 1 ||
-      [current_board[2], current_board[5], current_board[8]].uniq.length == 1 ||
-      [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
-      [current_board[2], current_board[4], current_board[6]].uniq.length == 1
-  end
-
-  def get_human_spot#(player)
+  def get_human_1_spot
     spot = nil
     until spot
       spot = gets.chomp.to_i
       if @board[spot] != @player_one && @board[spot] != @player_two
-        @board[spot] = @hum
+        @board[spot] = @player_one
       else
         spot = nil
       end
+    end
+  end
+
+  def get_human_2_spot
+    spot = nil
+    until spot
+      spot = gets.chomp.to_i
+      if @board[spot] != @player_one && @board[spot] != @player_two
+        @board[spot] = @player_two
+      else
+        spot = nil
+      end
+    end
+  end
+
+  def second_player_play
+    if @num_human_players == 1
+      eval_board
+    elsif @num_human_players == 2
+      get_human_2_spot
     end
   end
 
@@ -230,6 +231,30 @@ class Game
       n = rand(0..@empty_squares.count)
       return @empty_squares[n].to_i
     end
+  end
+
+  def get_empty_squares(board)
+    @empty_squares = []
+    board.each do |square|
+      if square != @player_one && square != @player_two
+        @empty_squares << square
+      end
+    end
+  end
+
+  def all_squares_filled?(current_board)
+    [@player_one, @player_two].sort == current_board.uniq.sort
+  end
+
+  def game_is_won?(current_board)
+    [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
+      [current_board[3], current_board[4], current_board[5]].uniq.length == 1 ||
+      [current_board[6], current_board[7], current_board[8]].uniq.length == 1 ||
+      [current_board[0], current_board[3], current_board[6]].uniq.length == 1 ||
+      [current_board[1], current_board[4], current_board[7]].uniq.length == 1 ||
+      [current_board[2], current_board[5], current_board[8]].uniq.length == 1 ||
+      [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
+      [current_board[2], current_board[4], current_board[6]].uniq.length == 1
   end
 
   #THINGS I'D LIKE TO DO:
