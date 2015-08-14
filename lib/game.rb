@@ -152,40 +152,10 @@ class Game
     else
       #computer vs computer game
     end
-    puts "Game over"
+    check_for_game_over
   end
 
-  # def get_human_1_spot
-  #   clear_screen
-  #   draw_board
-  #   spot = nil
-  #   until spot
-  #     print "Player 1, please pick a spot: "
-  #     spot = gets.chomp.to_i
-  #     if @board[spot] != @player_one && @board[spot] != @player_two
-  #       @board[spot] = @player_one
-  #     else
-  #       spot = nil
-  #     end
-  #   end
-  # end
-
-  # def get_human_2_spot # can refactor human_1 and human_2 into one method
-  #   clear_screen
-  #   draw_board
-  #   spot = nil
-  #   until spot
-  #     print "Player 2, please pick a spot: "
-  #     spot = gets.chomp.to_i
-  #     if @board[spot] != @player_one && @board[spot] != @player_two
-  #       @board[spot] = @player_two
-  #     else
-  #       spot = nil
-  #     end
-  #   end
-  # end
-
-   def get_human_spot(player)
+  def get_human_spot(player)
     clear_screen
     draw_board
     spot = nil
@@ -196,16 +166,13 @@ class Game
         @board[spot] = @players_in_order[0] if player == 1
         @board[spot] = @players_in_order[1] if player == 2
       else
+        puts "Already used, please try again."
         spot = nil
       end
     end
   end
 
-
-
   def second_player_play
-
-
     if @num_human_players == 1
       eval_board
     elsif @num_human_players == 2
@@ -213,20 +180,20 @@ class Game
     end
   end
 
+  def check_for_game_over
+
+  end
+
   def eval_board
     spot = nil
     until spot
-      if @board[4] == "4"
-        spot = 4
-        @board[spot] = @com
+      spot = get_best_move(@board, @player_two)
+      if @board[spot] != @player_one && @board[spot] != @player_two
+        @board[spot] = @player_two
       else
-        spot = get_best_move(@board, @com)
-        if @board[spot] != @player_one && @board[spot] != @player_two
-          @board[spot] = @com
-        else
-          spot = nil
-        end
+        spot = nil
       end
+      # end
     end
   end
 
@@ -234,7 +201,7 @@ class Game
     best_move = nil
     get_empty_squares(board)
     @empty_squares.each do |empty_sq|
-      board[empty_sq.to_i] = @com
+      board[empty_sq.to_i] = @player_two
       if game_is_won?(board)
         best_move = empty_sq.to_i
         board[empty_sq.to_i] = empty_sq
