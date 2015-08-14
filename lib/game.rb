@@ -11,13 +11,21 @@ class Game
   end
 
   def start_new_game
-    puts "\e[H\e[2J" # clears terminal screen before drawing, probably not work cross-platform
-    puts "Welcome to my Tic-Tac-Toe game!"
+    clear_screen
+    greet_player
     draw_board
     prompt_for_players
     assign_gamepieces
     set_player_order
     begin_gameplay
+  end
+
+  def clear_screen
+    puts "\e[H\e[2J" # clears terminal screen before drawing, probably not work cross-platform
+  end
+
+  def greet_player
+    puts "Welcome to my Tic-Tac-Toe game!"
   end
 
   def draw_board
