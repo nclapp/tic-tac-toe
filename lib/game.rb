@@ -74,8 +74,8 @@ class Game
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
-    puts "Player 1: \"#{@player_one}\""
-    puts "Player 2: \"#{@player_two}\""
+    # puts "Player 1: \"#{@player_one}\""
+    # puts "Player 2: \"#{@player_two}\""
   end
 
   def get_gamepiece_choice
