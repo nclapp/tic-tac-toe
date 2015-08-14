@@ -39,11 +39,10 @@ class Game
   end
 
   def prompt_for_players #TO_I CONVERTS ANY LETTER TO 0, need to fix
-    puts "How many players?"
-    puts "(0: computer vs. computer; 1: user vs. computer; 2: user vs. user)"
+    print "Number of human players (0, 1, or 2): "
     @num_human_players = gets.chomp.to_i
     until @num_human_players.between?(0,2)
-      puts "Please pick 0, 1, or 2!"
+      puts "Please pick 0, 1, or 2: "
       @num_human_players = gets.chomp.to_i
     end
     if @num_human_players == 0
@@ -51,6 +50,7 @@ class Game
     else
       puts "Get ready to play a #{@num_human_players}-player game!"
     end
+    clear_screen
   end
 
   def assign_gamepieces
@@ -60,12 +60,12 @@ class Game
     end
 
     if @num_human_players > 0
-      puts "Player 1, what letter would you like to be?"
+      print "Player 1, pick your letter: "
       @player_one = get_gamepiece_choice
     end
 
     if @num_human_players > 1
-      puts "Player 2, what letter would you like to be?"
+      print "Player 2, pick your letter: "
       @player_two = get_gamepiece_choice
       ensure_unique_gamepieces
     end
@@ -81,7 +81,7 @@ class Game
   def get_gamepiece_choice
     gamepiece_choice = gets.chomp.to_s
     until valid_gamepiece?(gamepiece_choice)
-      puts "Please choose a single non-numeric character:"
+      print "Please choose a single non-numeric character: "
       gamepiece_choice = gets.chomp.to_s
     end
     gamepiece_choice
@@ -89,7 +89,7 @@ class Game
 
   def ensure_unique_gamepieces
     until @player_one != @player_two && valid_gamepiece?(@player_two)
-      puts "\"#{@player_two}\" is in use or invalid, please pick another character:"
+      print "\"#{@player_two}\" is in use or invalid, please pick another character: "
       @player_two = gets.chomp.to_s
     end
   end
@@ -108,7 +108,7 @@ class Game
       @players_in_order = default_order
     else
       puts "Who should go first, Player 1 (\"#{@player_one}\") or Player 2 (\"#{@player_two}\")?"
-      puts "Enter 1 for Player 1, or 2 for Player 2:"
+      print "Enter 1 for Player 1, or 2 for Player 2: "
       first_player = gets.chomp.to_i
       case first_player
       when 1
