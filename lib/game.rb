@@ -70,7 +70,7 @@ class Game
       ensure_unique_gamepieces
     end
 
-    if @num_human_players == 1
+    if @num_human_players == 1 # if 1-player game, player 1 is human, player 2 is computer.
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
