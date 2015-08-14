@@ -7,13 +7,11 @@ class Game
     @player_one
     @player_two
     @players_in_order = []
-    @empty_squares = [] # also declared in #get_empty_squares, has to reset every time
   end
 
   def start_new_game
     clear_screen
     greet_player
-    # draw_board
     prompt_for_players
     assign_gamepieces
     set_player_order
@@ -47,19 +45,13 @@ class Game
       @num_human_players = gets.chomp.to_i
     end
     if @num_human_players == 0
-      puts "\nGet ready to watch a computer vs. computer game!"
-      puts
+      puts "Get ready to watch a computer vs. computer game!"
     else
-      puts "\nGet ready to play a #{@num_human_players}-player game!"
-      puts
+      puts "Get ready to play a #{@num_human_players}-player game!"
     end
-    # clear_screen
   end
 
   def assign_gamepieces
-    # clear_screen
-    # greet_player
-
     if @num_human_players == 0
       @player_one = "X"
       @player_two = "O"
@@ -71,7 +63,6 @@ class Game
     end
 
     if @num_human_players > 1
-      puts
       print "Human \#2, pick your letter: "
       @player_two = get_gamepiece_choice
       ensure_unique_gamepieces
@@ -81,8 +72,6 @@ class Game
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
-    # puts "Player 1: \"#{@player_one}\""
-    # puts "Player 2: \"#{@player_two}\""
   end
 
   def get_gamepiece_choice
@@ -101,7 +90,7 @@ class Game
     end
   end
 
-  def valid_gamepiece?(choice) # could break down further into two separate methods
+  def valid_gamepiece?(choice)
     (choice.length == 1) && !(@board.include?(choice))
   end
 
@@ -114,7 +103,6 @@ class Game
     if @num_human_players == 0
       @players_in_order = default_order
     else
-      puts
       puts "Who should go first, Player 1 (\"#{@player_one}\") or Player 2 (\"#{@player_two}\")?"
       print "Enter 1 for Player 1, or 2 for Player 2: "
       first_player = gets.chomp.to_i
@@ -125,8 +113,6 @@ class Game
         @players_in_order = default_order.reverse
       end
     end
-    display_player_order
-    sleep(1)
   end
 
   def display_player_order
@@ -134,8 +120,9 @@ class Game
   end
 
   def begin_gameplay
+    display_player_order
+    sleep(2.2)
     clear_screen
-    # display_player_order
     draw_board
     play_game
   end
@@ -151,7 +138,7 @@ class Game
       end
     else
       until game_is_won?(@board) || all_squares_filled?(@board)
-        sleep(0.5)
+        sleep(0.6)
         eval_board(1)
         if !game_is_won?(@board) && !all_squares_filled?(@board)
           second_player_play
@@ -182,19 +169,17 @@ class Game
   end
 
   def second_player_play
-    sleep(1)
+    clear_screen
+    draw_board
     if @num_human_players == 0
       eval_board(2)
     elsif @num_human_players == 1
+      puts "computer playing..."
+      sleep(1)
       eval_board(2)
     elsif @num_human_players == 2
       get_human_spot(2)
     end
-  end
-
-  def check_for_game_over
-    puts all_squares_filled?(@board)
-    puts game_is_won?(@board)
   end
 
   def eval_board(player)
@@ -203,16 +188,14 @@ class Game
       spot = get_best_move(@board, 1) if player == 1
       spot = get_best_move(@board, 2) if player == 2
       if @board[spot] != @player_one && @board[spot] != @player_two
+        sleep(0.5)
         puts "Player #{player} chose spot #{spot}."
         @board[spot] = @player_one if player == 1
         @board[spot] = @player_two if player == 2
-
       else
         spot = nil
       end
-
     end
-
   end
 
   def get_best_move(board, player)
@@ -254,7 +237,6 @@ class Game
   end
 
   def all_squares_filled?(current_board)
-
     [@player_one, @player_two].sort == current_board.uniq.sort
   end
 
@@ -280,7 +262,7 @@ class Game
         [current_board[2], current_board[5], current_board[8]].uniq == [@player_one] ||
         [current_board[0], current_board[4], current_board[8]].uniq == [@player_one] ||
         [current_board[2], current_board[4], current_board[6]].uniq == [@player_one]
-      puts "Player One wins with #{@player_one}-#{@player_one}-#{@player_one}!"
+      puts "Player 1 wins with #{@player_one}-#{@player_one}-#{@player_one}!"
     elsif [current_board[0], current_board[1], current_board[2]].uniq == [@player_two] ||
         [current_board[3], current_board[4], current_board[5]].uniq == [@player_two] ||
         [current_board[6], current_board[7], current_board[8]].uniq == [@player_two] ||
@@ -289,20 +271,20 @@ class Game
         [current_board[2], current_board[5], current_board[8]].uniq == [@player_two] ||
         [current_board[0], current_board[4], current_board[8]].uniq == [@player_two] ||
         [current_board[2], current_board[4], current_board[6]].uniq == [@player_two]
-      puts "Player Two wins with #{@player_two}-#{@player_two}-#{@player_two}!"
+      puts "Player 2 wins with #{@player_two}-#{@player_two}-#{@player_two}!"
     else
       puts "It's a draw!"
     end
     puts "Thanks for playing!"
-    # binding.pry
   end
-
-
 
 
 
   #THINGS I'D LIKE TO DO:
   # Divide into Board, Player, and Game classes
+  # Standardize sleep times etc. so flow is smooth between turns
+  # WRITE TESTS holy cow
+  # Clean this up, got messy and not DRY
 
 end#class Game
 
