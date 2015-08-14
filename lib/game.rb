@@ -47,7 +47,7 @@ class Game
       @num_human_players = gets.chomp.to_i
     end
     if @num_human_players == 0
-      puts "\nGet ready to watch a computer vs. computer game!\n"
+      puts "\nGet ready to watch a computer vs. computer game!"
       puts
     else
       puts "\nGet ready to play a #{@num_human_players}-player game!"
@@ -137,39 +137,22 @@ class Game
     # binding.pry
     clear_screen
     display_player_order
-    puts
-    puts "#{@players_in_order[0]}, please select your spot."
-    until game_is_won?(@board) || all_squares_filled?(@board)
-      get_human_spot
-
-      if !game_is_won?(@board) && !all_squares_filled?(@board)
-        eval_board
-      end
-      draw_board
-    end
-    puts "Game over"
+    draw_board
+    # take_turns
   end
 
+  def get_empty_squares(board)
+    @empty_squares = []
+    board.each do |square|
+      if square != @player_one && square != @player_two
+        @empty_squares << square
+      end
+    end
+  end
 
-  # PSEUDO CODE, WORKING ON THIS NOW
-  # def begin_gameplay
-  #   puts "Please select your spot."
-  #   until game_is_won?(@board) || all_squares_filled?(@board)
-  #     case @num_human_players
-  #     when 0
-  #       computer 1 play
-  #       computer 2 play
-  #     when 1
-  #       player_one play
-  #       computer play
-  #     when 2
-  #       player_one play
-  #       player_two play
-  #     end
-  #   end
-  #   display_winner
-  # end
-
+  def all_squares_filled?(current_board)
+    [@player_one, @player_two].sort == current_board.uniq.sort
+  end
 
   def game_is_won?(current_board)
     [current_board[0], current_board[1], current_board[2]].uniq.length == 1 ||
@@ -182,21 +165,6 @@ class Game
       [current_board[2], current_board[4], current_board[6]].uniq.length == 1
   end
 
-  # def winner
-  #   if game_is_won?
-
-  #   end
-  # end
-
-
-
-
-
-  def all_squares_filled?(current_board)
-    [@player_one, @player_two].sort == current_board.uniq.sort
-  end
-
-
   def get_human_spot#(player)
     spot = nil
     until spot
@@ -207,10 +175,6 @@ class Game
         spot = nil
       end
     end
-  end
-
-  def random_computer_move
-
   end
 
   def eval_board
@@ -230,20 +194,9 @@ class Game
     end
   end
 
-  def get_empty_squares(board)
-    @empty_squares = []
-    board.each do |square|
-      if square != @player_one && square != @player_two
-        @empty_squares << square
-      end
-    end
-  end
-
   def get_best_move(board, next_player, depth = 0, best_score = {})
     best_move = nil
-
     get_empty_squares(board)
-
     @empty_squares.each do |empty_sq|
       board[empty_sq.to_i] = @com
       if game_is_won?(board)
@@ -261,14 +214,12 @@ class Game
         end
       end
     end
-
     if best_move
       return best_move
     else
       n = rand(0..@empty_squares.count)
       return @empty_squares[n].to_i
     end
-
   end
 
   #THINGS I'D LIKE TO DO:
