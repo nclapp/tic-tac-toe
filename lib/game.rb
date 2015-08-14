@@ -174,7 +174,7 @@ class Game
 
   def second_player_play
     if @num_human_players == 1
-      eval_board
+      eval_board(2)
     elsif @num_human_players == 2
       get_human_spot(2)
     end
@@ -184,16 +184,17 @@ class Game
 
   end
 
-  def eval_board
+  def eval_board(player)
     spot = nil
     until spot
-      spot = get_best_move(@board, @player_two)
+      spot = get_best_move(@board, @player_one) if player == 1
+      spot = get_best_move(@board, @player_two) if player == 2
       if @board[spot] != @player_one && @board[spot] != @player_two
-        @board[spot] = @player_two
+        @board[spot] = @player_one if player == 1
+        @board[spot] = @player_two if player == 2
       else
         spot = nil
       end
-      # end
     end
   end
 
