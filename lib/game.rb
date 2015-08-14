@@ -72,6 +72,8 @@ class Game
       @player_two = "X" if @player_one != "X"
       @player_two = "O" if @player_one == "X"
     end
+    @player_one = @player_one.red
+    @player_two = @player_two.yellow
   end
 
   def get_gamepiece_choice
@@ -169,8 +171,8 @@ class Game
   end
 
   def second_player_play
-    clear_screen
-    draw_board
+    # clear_screen
+    # draw_board
     if @num_human_players == 0
       eval_board(2)
     elsif @num_human_players == 1
@@ -279,7 +281,20 @@ class Game
   end
 end#class Game
 
+class String
+  # colorization
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
 
+  def red
+    colorize(31)
+  end
+
+  def yellow
+    colorize(33)
+  end
+end#class String
 
 #THINGS I'D LIKE TO DO:
 # Implement Minimax algorithm
