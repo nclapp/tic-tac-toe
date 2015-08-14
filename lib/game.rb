@@ -125,8 +125,8 @@ class Game
         @players_in_order = default_order.reverse
       end
     end
-    # display_player_order
-
+    display_player_order
+    sleep(1)
   end
 
   def display_player_order
@@ -135,7 +135,7 @@ class Game
 
   def begin_gameplay
     clear_screen
-    display_player_order
+    # display_player_order
     draw_board
     play_game
   end
@@ -151,14 +151,17 @@ class Game
       end
     else
       until game_is_won?(@board) || all_squares_filled?(@board)
+        sleep(0.5)
         eval_board(1)
         if !game_is_won?(@board) && !all_squares_filled?(@board)
           second_player_play
+          sleep(1)
         end
+        clear_screen
         draw_board
       end
     end
-    check_for_game_over
+    announce_winner(@board)
   end
 
   def get_human_spot(player)
@@ -179,6 +182,7 @@ class Game
   end
 
   def second_player_play
+    sleep(1)
     if @num_human_players == 0
       eval_board(2)
     elsif @num_human_players == 1
@@ -189,7 +193,8 @@ class Game
   end
 
   def check_for_game_over
-
+    puts all_squares_filled?(@board)
+    puts game_is_won?(@board)
   end
 
   def eval_board(player)
@@ -198,12 +203,16 @@ class Game
       spot = get_best_move(@board, 1) if player == 1
       spot = get_best_move(@board, 2) if player == 2
       if @board[spot] != @player_one && @board[spot] != @player_two
+        puts "Player #{player} chose spot #{spot}."
         @board[spot] = @player_one if player == 1
         @board[spot] = @player_two if player == 2
+
       else
         spot = nil
       end
+
     end
+
   end
 
   def get_best_move(board, player)
@@ -259,6 +268,38 @@ class Game
       [current_board[0], current_board[4], current_board[8]].uniq.length == 1 ||
       [current_board[2], current_board[4], current_board[6]].uniq.length == 1
   end
+
+  def announce_winner(current_board)
+    clear_screen
+    draw_board
+    if [current_board[0], current_board[1], current_board[2]].uniq == [@player_one] ||
+        [current_board[3], current_board[4], current_board[5]].uniq == [@player_one] ||
+        [current_board[6], current_board[7], current_board[8]].uniq == [@player_one] ||
+        [current_board[0], current_board[3], current_board[6]].uniq == [@player_one] ||
+        [current_board[1], current_board[4], current_board[7]].uniq == [@player_one] ||
+        [current_board[2], current_board[5], current_board[8]].uniq == [@player_one] ||
+        [current_board[0], current_board[4], current_board[8]].uniq == [@player_one] ||
+        [current_board[2], current_board[4], current_board[6]].uniq == [@player_one]
+      puts "Player One wins with #{@player_one}-#{@player_one}-#{@player_one}!"
+    elsif [current_board[0], current_board[1], current_board[2]].uniq == [@player_two] ||
+        [current_board[3], current_board[4], current_board[5]].uniq == [@player_two] ||
+        [current_board[6], current_board[7], current_board[8]].uniq == [@player_two] ||
+        [current_board[0], current_board[3], current_board[6]].uniq == [@player_two] ||
+        [current_board[1], current_board[4], current_board[7]].uniq == [@player_two] ||
+        [current_board[2], current_board[5], current_board[8]].uniq == [@player_two] ||
+        [current_board[0], current_board[4], current_board[8]].uniq == [@player_two] ||
+        [current_board[2], current_board[4], current_board[6]].uniq == [@player_two]
+      puts "Player Two wins with #{@player_two}-#{@player_two}-#{@player_two}!"
+    else
+      puts "It's a draw!"
+    end
+    puts "Thanks for playing!"
+    # binding.pry
+  end
+
+
+
+
 
   #THINGS I'D LIKE TO DO:
   # Divide into Board, Player, and Game classes
